@@ -6,16 +6,37 @@ data = load("nonLinear.jld")
 # Compute number of training examples and number of features
 (n,d) = size(X)
 
+# shuffle training set using random permutation
+using Random
+shuffled = randperm(n)
+boundary = div(n, 2)
+train = shuffled[1:boundary]
+val = shuffled[boundary+1:end]
+
+Xtrain = reshape(X[train], 100, 1)
+ytrain = y[train]
+Xval = reshape(X[val], 100, 1)
+yval = y[val]
+
+# Xtrain = X
+# ytrain = y
+# Xval = X
+# yval = y
+
 # Fit least squares model
 include("leastSquares.jl")
-model = leastSquares(X,y)
+lambda = 1
+sigma = 1
+println("Xtrain size", size(Xtrain))
+model = leastSquaresRBFL2(Xtrain,ytrain,lambda,sigma)
 
-# Report the error on the test set
+
+# Report the error on the validation set
 using Printf
-t = size(Xtest,1)
-yhat = model.predict(Xtest)
-testError = sum((yhat - ytest).^2)/t
-@printf("TestError = %.2f\n",testError)
+t = size(Xval,1)
+yhat = model.predict(Xval)
+valError = sum((yhat - yval).^2)/t
+@printf("Validation Error = %.2f\n",valError)
 
 # Plot model
 using PyPlot
