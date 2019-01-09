@@ -9,19 +9,14 @@ data = load("nonLinear.jld")
 # shuffle training set using random permutation
 using Random
 shuffled = randperm(n)
-boundary = div(n, 2)
+boundary = div(n, 2) # 100 in this case
 train = shuffled[1:boundary]
 val = shuffled[boundary+1:end]
 
-Xtrain = reshape(X[train], 100, 1)
+Xtrain = reshape(X[train], boundary, 1)
 ytrain = y[train]
-Xval = reshape(X[val], 100, 1)
+Xval = reshape(X[val], boundary, 1)
 yval = y[val]
-
-# Xtrain = X
-# ytrain = y
-# Xval = X
-# yval = y
 
 # Fit least squares model
 include("leastSquares.jl")
