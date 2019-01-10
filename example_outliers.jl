@@ -7,6 +7,7 @@ data = load("outliersData.jld")
 include("leastSquares.jl")
 # model = leastSquares(X,y)
 model = leastAbsolute(X,y)
+# model = leastMax(X,y)
 
 # Evaluate training error
 yhat = model.predict(X)

@@ -65,3 +65,27 @@ function leastAbsolute(X,y)
 	# Return model
 	return LinearModel(predict,w)
 end
+
+function leastMax(X,y)
+
+	# Add bias column
+	n, d = size(X)
+	Z = [ones(n,1) X]
+
+	# use linear programming to find solution
+	c = [zeros(d+1); 1]
+	A = [Z ones(n); Z -ones(n)]
+	b = [ones(n)*Inf; y]
+	b = reshape(b, 2n)
+	d = [y; ones(n)*-Inf]
+	d = reshape(d, 2n)
+	solution = linprog(c,A,d,b,-Inf,Inf,GLPKSolverLP())
+	x = solution.sol
+	w = [x[1]; x[2]]
+
+	# Make linear prediction function
+	predict(Xtilde) = [ones(size(Xtilde,1),1) Xtilde]*w
+
+	# Return model
+	return LinearModel(predict,w)
+end
