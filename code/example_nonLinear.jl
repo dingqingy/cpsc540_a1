@@ -1,6 +1,6 @@
 # Load X and y variable
 using JLD
-data = load("nonLinear.jld")
+data = load("../data/nonLinear.jld")
 (X,y,Xtest,ytest) = (data["X"],data["y"],data["Xtest"],data["ytest"])
 
 # Compute number of training examples and number of features

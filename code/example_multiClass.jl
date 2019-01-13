@@ -1,6 +1,6 @@
 # Load X and y variable
 using JLD
-data = load("multiData.jld")
+data = load("../data/multiData.jld")
 (X,y,Xtest,ytest) = (data["X"],data["y"],data["Xtest"],data["ytest"])
 
 # Data is already roughly standardized, but let's add bias
